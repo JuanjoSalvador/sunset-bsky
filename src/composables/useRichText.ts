@@ -27,8 +27,6 @@ export function useRichText(text: string, agent?: any) {
 
     const md = new MarkdownIt()
     htmlText.value = md.render(markdown)
-
-    console.log(htmlText.value)
   })
 
   return {
