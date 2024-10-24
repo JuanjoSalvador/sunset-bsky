@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSessionStore } from '~/stores/session'
-import Post from './post/Post.vue';
+
 import Notification from './Notification.vue';
 
 const nuxtApp = useNuxtApp()
@@ -8,33 +8,28 @@ const bskyAgent = nuxtApp.$bskyAgent
 const sessionStore = useSessionStore()
 
 const loading = ref(false)
-const timelineData = ref<Array<any>>([])
+const notificationsData = ref<Array<any>>([])
 const cursor = ref<string | null>(null)
 const endReached = ref(false)
 const observer = ref<IntersectionObserver | null>(null)
 
-const currentUserDid = sessionStore.getSession()
+const savedSessionData = sessionStore.getSession()
+
+async function resumeSession() {
+  if (savedSessionData)
+    await bskyAgent.resumeSession(savedSessionData)
+}
 
 async function fetchData(cursorValue?: string | null) {
   try {
     loading.value = true
-    const savedSessionData = sessionStore.getSession()
-
-    if (savedSessionData)
-      await bskyAgent.resumeSession(savedSessionData)
 
     const response = cursorValue === null
       ? await bskyAgent.listNotifications({ limit: 50 })
       : await bskyAgent.listNotifications({ cursor: cursorValue, limit: 50 })
 
-
-    console.log(response)
-
-    // Skip replies and reposts from current user
-    const notifications = response.data.notifications //.filter(
-      // post => !(post.post.record as any).reply || !(post.reason?.by?.did == currentUserDid?.did)
-    // )
-    timelineData.value = [...timelineData.value, ...notifications]
+    const notifications = response.data.notifications
+    notificationsData.value = [...notificationsData.value, ...notifications]
 
     if (response.data.cursor) {
       cursor.value = response.data.cursor
@@ -62,24 +57,27 @@ async function fetchData(cursorValue?: string | null) {
   }
 }
 
+onBeforeMount(() => {
+  resumeSession()
+  fetchData()
+})
+
 onMounted(() => {
-    fetchData()
+  // Infinite scroll, loads new posts when last one has been reached
+  observer.value = new IntersectionObserver(async (entries) => {
+  if (entries[0].isIntersecting && !loading.value)
+    await fetchData(cursor.value)
+  }, {
+      rootMargin: '200px 0px',
+  })
 
-    // Infinite scroll, loads new posts when last one has been reached
-    observer.value = new IntersectionObserver(async (entries) => {
-    if (entries[0].isIntersecting && !loading.value)
-      await fetchData(cursor.value)
-    }, {
-        rootMargin: '200px 0px',
-    })
-
-    observer.value.observe(document.querySelector('#endOfList')!)
+  observer.value.observe(document.querySelector('#endOfList')!)
 })
 </script>
 
 <template>
   <ul>
-    <Notification v-for="post in timelineData" :value="post" />
+    <Notification v-for="notification in notificationsData" :value="notification" />
   </ul>
   <div id="endOfList" />
 </template>
