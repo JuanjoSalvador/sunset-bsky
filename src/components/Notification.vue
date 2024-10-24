@@ -1,10 +1,18 @@
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
     value: Object
 })
 
 const nuxtApp = useNuxtApp()
 const bskyAgent = nuxtApp.$bskyAgent
+const currentPost = ref()
+
+if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
+    const currentPostUri = computed(() => props.value?.reasonSubject)
+    currentPost.value = await bskyAgent.getPosts({
+        "uris": [currentPostUri.value]
+    })
+}
 </script>
 
 <template>
@@ -17,13 +25,15 @@ const bskyAgent = nuxtApp.$bskyAgent
             </div>
             <div class="media-content">
                 <p class="subtitle is-6">
-                    <span v-if="value?.author?.displayName">
-                        <a :href="'profile/' + value?.author?.handle">{{ value?.author?.displayName }}</a>
-                    </span>
-                    <span v-else>
-                        <a :href="'profile/' + value?.author?.handle">{{ value?.author?.handle }}</a>
-                    </span>
-                    is following you!
+                    <strong>
+                        <span v-if="value?.author?.displayName">
+                            <a :href="'profile/' + value?.author?.handle">{{ value?.author?.displayName }}</a>
+                        </span>
+                        <span v-else>
+                            <a :href="'profile/' + value?.author?.handle">{{ value?.author?.handle }}</a>
+                        </span>
+                        is following you!
+                    </strong>
                 </p>
             </div>
         </div>
@@ -37,18 +47,20 @@ const bskyAgent = nuxtApp.$bskyAgent
                 </figure>
             </div>
             <div class="media-content">
-                <p class="title is-4">
-                    
-                </p>
                 <p class="subtitle is-6">
-                    <span v-if="value?.author?.displayName">
-                        <a :href="'profile/' + value?.author?.handle">{{ value?.author?.displayName }}</a>
-                    </span>
-                    <span v-else>
-                        <a :href="'profile/' + value?.author?.handle">{{ value?.author?.handle }}</a>
-                    </span>
-                    liked your post!
+                    <strong>
+                        <span v-if="value?.author?.displayName">
+                            <a :href="'profile/' + value?.author?.handle">{{ value?.author?.displayName }}</a>
+                        </span>
+                        <span v-else>
+                            <a :href="'profile/' + value?.author?.handle">{{ value?.author?.handle }}</a>
+                        </span>
+                        liked your post!
+                    </strong>
                 </p>
+                <div class="notification-post">
+                    {{ currentPost.data.posts[0].record.text }}
+                </div>
             </div>
         </div>
         <hr/>
@@ -56,22 +68,25 @@ const bskyAgent = nuxtApp.$bskyAgent
     <div v-if="value?.reason == 'repost'">
         <div class="media">
             <div class="media-left">
-                <figure class="image is-48x48 ">
+                <figure class="image is-32x32 ">
                     <img :src="value?.author?.avatar" class="is-rounded" />
                 </figure>
             </div>
             <div class="media-content">
-                <p class="title is-4">
-                    <span v-if="value?.author?.displayName">
-                        <a :href="'profile/' + value?.author?.handle">{{ value?.author?.displayName }}</a>
-                    </span>
-                    <span v-else>
-                        <a :href="'profile/' + value?.author?.handle">{{ value?.author?.handle }}</a>
-                    </span>
-                </p>
                 <p class="subtitle is-6">
-                    has started following you!
+                    <strong>
+                        <span v-if="value?.author?.displayName">
+                            <a :href="'profile/' + value?.author?.handle">{{ value?.author?.displayName }}</a>
+                        </span>
+                        <span v-else>
+                            <a :href="'profile/' + value?.author?.handle">{{ value?.author?.handle }}</a>
+                        </span>
+                        reposted your post!
+                    </strong>
                 </p>
+                <div class="notification-post">
+                    {{ currentPost.data.posts[0].record.text }}
+                </div>
             </div>
         </div>
         <hr/>
@@ -105,3 +120,11 @@ const bskyAgent = nuxtApp.$bskyAgent
         <hr/>
     </div>
 </template>
+
+<style scoped>
+div.notification-post {
+    margin-left: 0.25rem;
+    background-color: rgb(243, 243, 243);
+    padding: 1.25rem;;
+}
+</style>
