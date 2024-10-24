@@ -94,10 +94,7 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
     <div v-if="value?.reason == 'reply'">
         <PostHeader :author="value?.author"  :post="value" :timestamp="value?.record.createdAt" />
         <PostReply :post="value" :reply="value?.record?.reply" />
-        <br/>
         <PostText :text="value?.record?.text" :agent="bskyAgent" />
-
-        <br />
 
         <div v-if="value?.embed?.images" align="center">
             <figure v-for="image in value?.embed?.images" :key="image.thumb" class="image">
@@ -105,7 +102,10 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
                     <img :src="image.thumb" :alt="image.alt">
                 </a>
             </figure>
+            <br />
         </div>
+        
+        <br />
 
         <PostActions
             :post="value"

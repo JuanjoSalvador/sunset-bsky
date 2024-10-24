@@ -113,10 +113,6 @@ async function toggleRepost() {
 </template>
 
 <style scoped>
-.action-buttons {
-  margin-top: 0.05rem;
-}
-
 .text-green {
   color: green;
 }

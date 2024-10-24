@@ -30,10 +30,10 @@ function handleRepostToggled(newRepostUri: string | null) {
     <div>
         <PostReason :reason="post?.reason" />
         <PostHeader :author="currentPost?.author"  :post="post" :timestamp="currentPost?.record.createdAt" />
-        <PostReply :post="post" :reply="post?.reply" v-if="post?.reply"/>
+        <PostReply :post="post" :reply="post?.reply" />
         <PostText :text="currentPost?.record?.text" :agent="bskyAgent" />
 
-        <br />
+        <br/>
 
         <div v-if="currentPost?.embed?.images" align="center">
             <figure v-for="image in currentPost?.embed?.images" :key="image.thumb" class="image">
@@ -41,6 +41,8 @@ function handleRepostToggled(newRepostUri: string | null) {
                     <img :src="image.thumb" :alt="image.alt">
                 </a>
             </figure>
+
+            <br />
         </div>
 
         <PostActions
@@ -52,8 +54,7 @@ function handleRepostToggled(newRepostUri: string | null) {
             :agent="bskyAgent"
             @likeToggled="handleLikeToggled"
             @repostToggled="handleRepostToggled"
-            />
-
+        />
         <hr />
     </div>
 </template>
