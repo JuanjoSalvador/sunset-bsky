@@ -28,9 +28,9 @@ function handleRepostToggled(newRepostUri: string | null) {
 
 <template>
     <div>
-        <PostReason :reason="post?.reason" :reply="post?.reply"/>
+        <PostReason :reason="post?.reason" />
         <PostHeader :author="currentPost?.author"  :post="post" :timestamp="currentPost?.record.createdAt" />
-        <PostReply :post="post" :reply="post?.reply"/>
+        <PostReply :post="post" :reply="post?.reply" v-if="post?.reply"/>
         <PostText :text="currentPost?.record?.text" :agent="bskyAgent" />
 
         <br />

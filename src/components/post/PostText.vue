@@ -24,7 +24,7 @@ const { htmlText } = useRichText(props.text, props.agent)
 <style scoped>
 div.postText {
   margin-left: 4rem;
-  font-size: larger;
+  font-size: normal;
 }
 
 div.postText > p + p {
