@@ -1,13 +1,8 @@
-<script lang="ts">
-import { NuxtLink } from '#build/components';
-import { useSessionStore } from '~/stores/session'
-</script>
-
 <template>
     <div class="sidebar">
         <ul>
             <li>
-                <NuxtLink to="/" class="button is-text">
+                <NuxtLink to="/" class="button is-ghost" activeClass="active">
                     <span class="icon is-small">
                         <font-awesome :icon="['fas', 'house']" class="list-icon" /> 
                     </span>
@@ -15,7 +10,7 @@ import { useSessionStore } from '~/stores/session'
                 </NuxtLink>
             </li>
             <li> 
-                <NuxtLink to="/notifications" class="button is-text">
+                <NuxtLink to="/notifications" class="button is-ghost" activeClass="active">
                     <span class="icon is-small">
                         <font-awesome :icon="['fas', 'bell']" class="list-icon" />
                     </span>
@@ -23,7 +18,7 @@ import { useSessionStore } from '~/stores/session'
                 </NuxtLink>
             </li>
             <li>
-                <button class="button is-text" @click="logout()">
+                <button class="button is-text">
                     <span class="icon is-small">
                         <font-awesome :icon="['fas', 'right-from-bracket']"  class="list-icon" />
                     </span>
