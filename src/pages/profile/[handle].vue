@@ -24,8 +24,6 @@ async function resumeSession() {
 
 async function fetchProfile() {
     userProfile.value = await bskyAgent.getProfile({actor: userHandle})
-
-    console.log(userProfile.value)
 }
 
 async function fetchData(cursorValue?: string | null) {
@@ -74,7 +72,6 @@ async function fetchData(cursorValue?: string | null) {
 onBeforeMount(() => {
     resumeSession()
     fetchProfile()
-    fetchData()
 })
 </script>
 
@@ -137,9 +134,9 @@ onBeforeMount(() => {
             </div>
         </div>
     </div>
-    <ul>
-        <Post v-for="post in timelineData" :key="post.post.record.cid" :post="post" :agent="bskyAgent" />
-    </ul>
+    
+    <NuxtPage />
+
     <div id="endOfList" />
 </template>
 
