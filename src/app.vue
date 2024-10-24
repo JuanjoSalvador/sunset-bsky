@@ -33,7 +33,7 @@ function onLoginSuccess() {
           <SidebarTools />
         </div>
         <div class="column is-half">
-          <RouterView />
+          <NuxtPage />
         </div>
         <div class="column">
           <SidebarMenu />
