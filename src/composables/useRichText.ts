@@ -19,6 +19,8 @@ export function useRichText(text: string, agent?: any) {
           // If not valid, just append the mention text without a link
           markdown += segment.text
         }
+      } else if (segment.isTag()) {
+        markdown += `[${segment.text}](https://bsky.app/hashtag/${segment.tag?.tag})`
       }
       else {
         markdown += segment.text
