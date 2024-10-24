@@ -13,9 +13,9 @@ jobs:
       - run: corepack enable
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "18"
       # Pick your own package manager and build script
-      - run: npm install
+      - run: yarn install
       - run: npx nuxt build --preset github_pages
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
