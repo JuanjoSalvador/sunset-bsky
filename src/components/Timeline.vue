@@ -12,15 +12,18 @@ const cursor = ref<string | null>(null)
 const endReached = ref(false)
 const observer = ref<IntersectionObserver | null>(null)
 
-const currentUserDid = sessionStore.getSession()
+const savedSessionData = sessionStore.getSession()
+
+async function resumeSession() {
+  if (savedSessionData)
+    await bskyAgent.resumeSession(savedSessionData)
+}
 
 async function fetchData(cursorValue?: string | null) {
   try {
     loading.value = true
-    const savedSessionData = sessionStore.getSession()
 
-    if (savedSessionData)
-      await bskyAgent.resumeSession(savedSessionData)
+    console.log("Updating data from Bsky")
 
     const response = cursorValue === null
       ? await bskyAgent.getTimeline({ limit: 50 })
@@ -28,8 +31,9 @@ async function fetchData(cursorValue?: string | null) {
 
     // Skip replies and reposts from current user
     const filteredPosts = response.data.feed.filter(
-      post => !(post.post.record as any).reply || !(post.reason?.by?.did == currentUserDid?.did)
+      post => !(post.post.record as any).reply || !(post.reason?.by?.did == savedSessionData?.did)
     )
+
     timelineData.value = [...timelineData.value, ...filteredPosts]
 
     if (response.data.cursor) {
@@ -58,19 +62,23 @@ async function fetchData(cursorValue?: string | null) {
   }
 }
 
-onMounted(() => {
-    fetchData()
-
-    // Infinite scroll, loads new posts when last one has been reached
-    observer.value = new IntersectionObserver(async (entries) => {
-    if (entries[0].isIntersecting && !loading.value)
-      await fetchData(cursor.value)
-    }, {
-        rootMargin: '200px 0px',
-    })
-
-    observer.value.observe(document.querySelector('#endOfList')!)
+onBeforeMount(() => {
+  resumeSession()
+  fetchData()
 })
+
+onMounted(() => {
+  // Infinite scroll, loads new posts when last one has been reached
+  observer.value = new IntersectionObserver(async (entries) => {
+  if (entries[0].isIntersecting && !loading.value)
+    await fetchData(cursor.value)
+  }, {
+      rootMargin: '200px 0px',
+  })
+
+  observer.value.observe(document.querySelector('#endOfList')!)
+})
+
 </script>
 
 <template>
