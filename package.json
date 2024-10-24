@@ -19,6 +19,7 @@
     "module": "^1.2.5",
     "nuxi": "^3.15.0",
     "nuxt": "^3.13.2",
+    "pinia": "^2.2.4",
     "vue": "latest",
     "vue-router": "latest"
   },

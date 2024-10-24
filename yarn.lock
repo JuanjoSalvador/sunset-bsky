@@ -6339,6 +6339,7 @@ __metadata:
     module: "npm:^1.2.5"
     nuxi: "npm:^3.15.0"
     nuxt: "npm:^3.13.2"
+    pinia: "npm:^2.2.4"
     vue: "npm:latest"
     vue-router: "npm:latest"
   languageName: unknown
@@ -6770,7 +6771,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pinia@npm:^2.2.3":
+"pinia@npm:^2.2.3, pinia@npm:^2.2.4":
   version: 2.2.4
   resolution: "pinia@npm:2.2.4"
   dependencies:
