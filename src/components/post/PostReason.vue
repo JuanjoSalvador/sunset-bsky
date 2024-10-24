@@ -15,7 +15,6 @@ defineProps({
 
 <style scoped>
 div.reason {
-  margin-left: 2.65rem;
   margin-bottom: 0.25rem;
 }
 

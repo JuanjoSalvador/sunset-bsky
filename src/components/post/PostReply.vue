@@ -27,7 +27,6 @@ if (isThread) {
 <style scoped>
 div.reason {
   margin-left: 4.25rem;
-  margin-bottom: 0.5rem;
   color: rgb(116, 116, 116);
 }
 

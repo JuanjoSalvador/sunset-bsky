@@ -32,10 +32,7 @@ function handleRepostToggled(newRepostUri: string | null) {
         <PostHeader :author="currentPost?.author"  :post="post" :timestamp="currentPost?.record.createdAt" />
         <PostReply :post="post" :reply="post?.reply" />
         <PostText :text="currentPost?.record?.text" :agent="bskyAgent" />
-
-        <br/>
-
-        <div v-if="currentPost?.embed?.images" align="center">
+        <div v-if="currentPost?.embed?.images">
             <figure v-for="image in currentPost?.embed?.images" :key="image.thumb" class="image">
                 <a :href="image.thumb">
                     <img :src="image.thumb" :alt="image.alt">

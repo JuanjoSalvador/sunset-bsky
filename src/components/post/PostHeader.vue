@@ -5,8 +5,6 @@ const props = defineProps({
   post: Object,
 })
 
-const postId = props.post?.post?.uri.split('/').at(-1)
-const postUri = 'https://bsky.app/profile/' + props.author?.handle + '/post/' + postId
 </script>
 
 <template>
