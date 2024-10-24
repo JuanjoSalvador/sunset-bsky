@@ -13,14 +13,14 @@ export function useRichText(text: string, agent?: any) {
       if (segment.isMention()) {
         // Check if the mention has a valid did (or whatever condition you want to use for validity)
         if (segment.mention?.did) {
-          markdown += `[${segment.text}](https://bsky.app/profile/${segment.mention?.did})`
+          markdown += `[${segment.text}](/profile/${segment.mention?.did})`
         }
         else {
           // If not valid, just append the mention text without a link
           markdown += segment.text
         }
       } else if (segment.isTag()) {
-        markdown += `[${segment.text}](https://bsky.app/hashtag/${segment.tag?.tag})`
+        markdown += `[${segment.text}](/hashtag/${segment.tag?.tag})`
       }
       else {
         markdown += segment.text
