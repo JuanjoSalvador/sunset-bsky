@@ -5,7 +5,7 @@ const isLoggedIn = ref(false)
 const isLoading = ref(true)
 const sessionStore = useSessionStore()
 
-onMounted(() => {
+onBeforeMount(() => {
   const storedSession = localStorage.getItem('session')
   if (storedSession && storedSession !== 'undefined') {
     try {

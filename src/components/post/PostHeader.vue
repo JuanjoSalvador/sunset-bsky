@@ -17,10 +17,20 @@ const props = defineProps({
     <div class="media-content">
       <span class="subtitle is-5">
         <span v-if="author?.displayName">
-          <a :href="'profile/' + author?.handle">{{ author?.displayName }}</a>
+          <NuxtLink :to="{ 
+            name: 'profile-handle', 
+            params: { handle: author?.handle } 
+          }">
+            {{ author?.displayName }}
+          </NuxtLink>
         </span>
         <span v-else>
-          <a :href="'profile/' + author?.handle">{{ author?.handle }}</a>
+          <NuxtLink :to="{ 
+            name: 'profile-handle', 
+            params: { handle: author?.handle } 
+          }">
+            {{ author?.handle }}
+          </NuxtLink>
         </span>
         <p class="small">
             @{{ author?.handle }}
