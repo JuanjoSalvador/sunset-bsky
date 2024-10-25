@@ -11,7 +11,10 @@ const currentUser = await bskyAgent.getProfile({'actor': currentUserDid})
 
 <template>
     <div class="sidebar">
-        <NuxtLink to="" class="media" id="user-profile">
+        <NuxtLink :to="{
+            name: 'profile-handle', 
+            params: { handle: currentUser.data.handle }
+        }" class="media" id="user-profile">
                 <div class="media-left">
                     <figure class="image is-48x48">
                         <img :src="currentUser.data.avatar" class="is-rounded" />
