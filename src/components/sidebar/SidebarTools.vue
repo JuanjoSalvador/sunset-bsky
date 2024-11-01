@@ -1,12 +1,34 @@
 <script setup lang="ts">
+import type { ComAtprotoRepoCreateRecord } from '@atproto/api'
 import { useSessionStore } from '~/stores/session'
 
 const nuxtApp = useNuxtApp()
-const bskyAgent = nuxtApp.$bskyAgent
+const bskyAgent = nuxtApp.$agent
 const sessionStore = useSessionStore()
 
 const currentUserDid = sessionStore.getSession().did
 const currentUser = await bskyAgent.getProfile({'actor': currentUserDid})
+const newPost = ref()
+
+function post() {
+    const postSchema: ComAtprotoRepoCreateRecord.InputSchema = {
+        "repo": currentUserDid,
+        "collection": "app.bsky.feed.post",
+        "record": {
+            "$type": "app.bsky.feed.post",
+            "text": newPost.value,
+            "createdAt": new Date().toISOString()
+        }
+    }
+    try {
+        usePost(postSchema)
+    } catch (error) {
+        console.log(error)
+    }
+
+    // Clear
+    newPost.value = null
+}
 </script>
 
 <template>
@@ -35,11 +57,15 @@ const currentUser = await bskyAgent.getProfile({'actor': currentUserDid})
                 </div>
         </NuxtLink>
 
-        <textarea class="textarea" placeholder="What's up?"></textarea>
+        <textarea class="textarea" placeholder="What's up?" v-model="newPost"></textarea>
         <br/>
-        <button class="button">
-            Post
-        </button>
+        <div class="field is-grouped is-grouped-right">
+            <p class="control">
+                <button class="button" @click="post">
+                    Post
+                </button>
+            </p>
+        </div>
     </div>
 </template>
 
