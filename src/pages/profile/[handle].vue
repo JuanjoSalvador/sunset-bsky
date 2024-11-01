@@ -3,7 +3,7 @@ import { useSessionStore } from '~/stores/session'
 import { useRichText } from '~/composables/useRichText'
 
 const nuxtApp = useNuxtApp()
-const bskyAgent = nuxtApp.$bskyAgent
+const bskyAgent = nuxtApp.$agent
 const sessionStore = useSessionStore()
 const route = useRoute()
 
@@ -16,6 +16,9 @@ const timelineData = ref<Array<any>>([])
 
 const savedSessionData = sessionStore.getSession()
 const userHandle = route.params.handle as string
+const followLabel = ref()
+
+followLabel.value = "Follow"
 
 async function resumeSession() {
   if (savedSessionData)
@@ -69,6 +72,14 @@ async function fetchData(cursorValue?: string | null) {
   }
 }
 
+function toggleFollowingUser() {
+    if (followLabel.value == "Follow") {
+        followLabel.value = "Unfollow"
+    } else {
+        followLabel.value = "Follow"
+    }
+}
+
 onBeforeMount(() => {
     resumeSession()
     fetchProfile()
@@ -83,18 +94,40 @@ onBeforeMount(() => {
         <figure class="image is-96x96 user-avatar">
             <img :src="userProfile?.data?.avatar" />
         </figure>
-        <p class="title is-4">
-            <span>
-                {{ userProfile?.data?.displayName }}
-            </span>
-        
-        </p>
-        <p class="subtitle is-6">
-            <span>
-                @{{ userProfile?.data?.handle }}
-            </span>
-        </p>
-    
+        <div class="columns">
+            <div class="column">
+                <p class="title is-4">
+                    <span>
+                        {{ userProfile?.data?.displayName }}
+                    </span>
+                
+                </p>
+                <p class="subtitle is-6">
+                    <span>
+                        @{{ userProfile?.data?.handle }}
+                    </span>
+                </p>
+            </div>
+            <div class="column">
+                <div class="field is-grouped is-grouped-right">
+                    <button class="button">
+                        <font-awesome :icon="['fas', 'share-nodes']" />
+                    </button>
+                    <button 
+                        class="button" 
+                        :class="{ 'is-danger': followLabel == 'Unfollow' }" 
+                        @click="toggleFollowingUser()"
+                        v-if="userProfile?.data?.handle != 'jsalvador.me'"
+                    >
+                        {{ followLabel }}
+                    </button>
+                    <button class="button" v-if="userProfile?.data?.handle == 'jsalvador.me'">
+                        Edit profile
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <span style="white-space: pre-wrap;"> 
             {{ userProfile?.data?.description }}
         </span>
@@ -148,9 +181,6 @@ figure.user-avatar {
 #user-profile {
     position: relative;
     top: -3rem;
-}
-
-#user-profile figure {
     margin-left: 1rem;
 }
 
