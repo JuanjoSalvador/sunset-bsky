@@ -4,7 +4,7 @@ const props = defineProps({
 })
 
 const nuxtApp = useNuxtApp()
-const bskyAgent = nuxtApp.$bskyAgent
+const bskyAgent = nuxtApp.$agent
 const currentPost = ref()
 
 if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
