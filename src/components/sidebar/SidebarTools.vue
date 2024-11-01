@@ -8,7 +8,7 @@ const sessionStore = useSessionStore()
 
 const currentUserDid = sessionStore.getSession().did
 const currentUser = await bskyAgent.getProfile({'actor': currentUserDid})
-const newPost = ref()
+const newPost = ref('')
 
 function post() {
     const postSchema: ComAtprotoRepoCreateRecord.InputSchema = {
@@ -27,7 +27,7 @@ function post() {
     }
 
     // Clear
-    newPost.value = null
+    newPost.value = ''
 }
 </script>
 
@@ -57,11 +57,14 @@ function post() {
                 </div>
         </NuxtLink>
 
-        <textarea class="textarea" placeholder="What's up?" v-model="newPost"></textarea>
+        <textarea class="textarea" rows="10" placeholder="What's up?" v-model="newPost"></textarea>
         <br/>
         <div class="field is-grouped is-grouped-right">
+            <span class="post-length-counter" :class="{ 'has-text-danger': newPost.length > 300 }">
+                {{ 300 - newPost.length }}
+            </span>
             <p class="control">
-                <button class="button" @click="post">
+                <button class="button" @click="post" :disabled="newPost.length > 300">
                     Post
                 </button>
             </p>
@@ -76,5 +79,14 @@ function post() {
 
 #user-profile {
     margin-bottom: 1rem;
+}
+
+.post-length-counter {
+    position: relative;
+    top: 0.5rem;
+}
+
+#post-composer {
+    height: 4rem;
 }
 </style>
