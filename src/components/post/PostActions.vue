@@ -24,7 +24,7 @@ const emits = defineEmits(['likeToggled', 'repostToggled'])
 
 const sessionStore = useSessionStore()
 const nuxtApp = useNuxtApp()
-const bskyAgent = nuxtApp.$bskyAgent
+const bskyAgent = nuxtApp.$agent
 
 const localLikeUri = ref<string | null | undefined>(props.likeUri)
 const localRepostUri = ref<string | null | undefined>(props.repostUri || null)

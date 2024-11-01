@@ -10,8 +10,6 @@ const props = defineProps({
     agent: Object
 })
 
-const nuxtApp = useNuxtApp()
-const bskyAgent = nuxtApp.$bskyAgent
 const currentPost = computed(() => props.post?.post)
 
 const likeUri = ref(props.post?.post?.viewer?.like)
@@ -24,14 +22,18 @@ function handleLikeToggled(newLikeUri: string | null) {
 function handleRepostToggled(newRepostUri: string | null) {
   repostUri.value = newRepostUri
 }
+
+function openPost() {
+    console.log("Post clicked!")
+}
 </script>
 
 <template>
-    <div>
+    <div @click="openPost()">
         <PostReason :reason="post?.reason" />
         <PostHeader :author="currentPost?.author"  :post="post" :timestamp="currentPost?.record.createdAt" />
         <PostReply :post="post" :reply="post?.reply" />
-        <PostText :text="currentPost?.record?.text" :agent="bskyAgent" />
+        <PostText :text="currentPost?.record?.text" :agent="agent" />
         <div v-if="currentPost?.embed?.images">
             <figure v-for="image in currentPost?.embed?.images" :key="image.thumb" class="image">
                 <a :href="image.thumb">
@@ -41,19 +43,19 @@ function handleRepostToggled(newRepostUri: string | null) {
 
             <br />
         </div>
-
-        <PostActions
-            :post="currentPost"
-            :post-cid="currentPost?.cid"
-            :post-uri="currentPost?.uri"
-            :like-uri="likeUri"
-            :repost-uri="repostUri"
-            :agent="bskyAgent"
-            @likeToggled="handleLikeToggled"
-            @repostToggled="handleRepostToggled"
-        />
-        <hr />
     </div>
+
+    <PostActions
+        :post="currentPost"
+        :post-cid="currentPost?.cid"
+        :post-uri="currentPost?.uri"
+        :like-uri="likeUri"
+        :repost-uri="repostUri"
+        :agent="agent"
+        @likeToggled="handleLikeToggled"
+        @repostToggled="handleRepostToggled"
+    />
+    <hr />
 </template>
 
 <style scoped>
