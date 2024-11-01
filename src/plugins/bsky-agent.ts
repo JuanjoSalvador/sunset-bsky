@@ -1,10 +1,7 @@
-import AtpAgent, { BskyAgent } from '@atproto/api'
-
+import { AtpAgent } from '@atproto/api'
 import { useSessionStore } from '~/stores/session'
 
-export default defineNuxtPlugin({
-  name: 'bsky-agent',
-  async setup() {
+export default defineNuxtPlugin((nuxtApp) => {
     const sessionStore = useSessionStore()
 
     const agent = new AtpAgent({
@@ -16,8 +13,7 @@ export default defineNuxtPlugin({
 
     return {
       provide: {
-        bskyAgent: agent,
-      },
+        agent
+      }
     }
-  },
 })
