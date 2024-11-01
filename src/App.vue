@@ -45,3 +45,7 @@ function onLoginSuccess() {
     </div>
   </div>
 </template>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Open+Sans:ital,wght@0,300;1,300&display=swap');
+</style>
