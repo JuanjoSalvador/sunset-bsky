@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const emit = defineEmits(['loginSuccess'])
 const nuxtApp = useNuxtApp()
-const bskyAgent = nuxtApp.$bskyAgent
+const bskyAgent = nuxtApp.$agent
 
 const identifier = ref('')
 const password = ref('')

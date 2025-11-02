@@ -3,7 +3,7 @@ import { useSessionStore } from '~/stores/session'
 import { useRichText } from '~/composables/useRichText'
 
 const nuxtApp = useNuxtApp()
-const bskyAgent = nuxtApp.$bskyAgent
+const bskyAgent = nuxtApp.$agent
 const sessionStore = useSessionStore()
 const route = useRoute()
 

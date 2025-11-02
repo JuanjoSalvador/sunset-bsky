@@ -3,11 +3,15 @@ import type { ComAtprotoRepoCreateRecord } from '@atproto/api'
 import { useSessionStore } from '~/stores/session'
 
 const nuxtApp = useNuxtApp()
-const bskyAgent = nuxtApp.$agent
+const $agent = nuxtApp.$agent
 const sessionStore = useSessionStore()
 
+const savedSessionData = sessionStore.getSession()
+if (savedSessionData)
+    await $agent.resumeSession(savedSessionData)
+
 const currentUserDid = sessionStore.getSession().did
-const currentUser = await bskyAgent.getProfile({'actor': currentUserDid})
+const currentUser = await $agent.getProfile({'actor': currentUserDid})
 const newPost = ref('')
 
 function post() {
@@ -73,20 +77,20 @@ function post() {
 </template>
 
 <style scoped>
-.sidebar {
-    position: fixed;
-}
+    .sidebar {
+        position: fixed;
+    }
 
-#user-profile {
-    margin-bottom: 1rem;
-}
+    #user-profile {
+        margin-bottom: 1rem;
+    }
 
-.post-length-counter {
-    position: relative;
-    top: 0.5rem;
-}
+    .post-length-counter {
+        position: relative;
+        top: 0.5rem;
+    }
 
-#post-composer {
-    height: 4rem;
-}
+    #post-composer {
+        height: 4rem;
+    }
 </style>
