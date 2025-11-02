@@ -40,7 +40,7 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
         <hr/>
     </div>
     <div v-if="value?.reason == 'like'">
-        <div class="media">
+        <div class="media like">
             <div class="media-left">
                 <figure class="image is-32x32 ">
                     <img :src="value?.author?.avatar" class="is-rounded" />
@@ -49,6 +49,9 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
             <div class="media-content">
                 <p class="subtitle is-6">
                     <strong>
+                        <span class="like-icon">
+                            <font-awesome :icon="['fas', 'heart']" class="text-red" />
+                        </span>
                         <span v-if="value?.author?.displayName">
                             <a :href="'profile/' + value?.author?.handle">{{ value?.author?.displayName }}</a>
                         </span>
@@ -58,7 +61,7 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
                         liked your post!
                     </strong>
                 </p>
-                <div class="notification-post">
+                <div class="notification-post has-text-grey">
                     {{ currentPost.data.posts[0].record.text }}
                 </div>
             </div>
@@ -102,10 +105,7 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
                     <img :src="image.thumb" :alt="image.alt">
                 </a>
             </figure>
-            <br />
         </div>
-        
-        <br />
 
         <PostActions
             :post="value"
@@ -124,7 +124,13 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
 <style scoped>
 div.notification-post {
     margin-left: 0.25rem;
-    background-color: rgb(243, 243, 243);
-    padding: 1.25rem;;
+}
+.like {
+    font-size: smaller;
+}
+.like-icon {
+    margin-right: 0.5em;
+    color: brown;
+    font-size: x-large;
 }
 </style>

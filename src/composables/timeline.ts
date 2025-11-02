@@ -1,4 +1,5 @@
 import type { AppBskyFeedGetTimeline } from '@atproto/api'
+import { useFeedStore } from '~/stores/feed'
 
 interface QueryParams {
     algorithm?: AppBskyFeedGetTimeline.QueryParams['algorithm'],
@@ -6,28 +7,22 @@ interface QueryParams {
     cursor?: AppBskyFeedGetTimeline.QueryParams['cursor']
 }
 
-export async function useTimeline(queryParams: QueryParams) {
+export async function resumeSession() {
   const nuxtApp = useNuxtApp()
   const bskyAgent = nuxtApp.$agent
+  const sessionStore = useSessionStore()
+  const savedSessionData = sessionStore.getSession()
 
-  
+    if (savedSessionData)
+      await bskyAgent.resumeSession(savedSessionData)
+}
+
+
+export async function useTimeline(queryParams: QueryParams) {
   try {
-    const query: QueryParams = {
-      algorithm: toValue(queryParams.algorithm),
-      limit: toValue(queryParams.limit),
-      cursor: toValue(queryParams.cursor)
-    }
-    const response: AppBskyFeedGetTimeline.Response = 
-      await bskyAgent.app.bsky.feed.getTimeline(query)
-        .then((res) => res)
-        .catch((error) => error)
-
-      return {
-        "cursor": response.data.cursor,
-        "feed": response.data.feed
-      }
-
-    } catch (error) {
-      console.log("[Timeline] An error ocurred!", error)
-    }
+    await resumeSession()
+    await useFeedStore().fetchFeed()
+  } catch (error) {
+    console.log("[Timeline] An error ocurred!", error)
   }
+}

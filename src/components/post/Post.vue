@@ -40,8 +40,6 @@ function openPost() {
                     <img :src="image.thumb" :alt="image.alt">
                 </a>
             </figure>
-
-            <br />
         </div>
     </div>
 
