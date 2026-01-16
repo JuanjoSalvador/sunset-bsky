@@ -1,3 +1,20 @@
+<script setup lang="ts">
+const emit = defineEmits(['logoutSuccess'])
+const nuxtApp = useNuxtApp()
+const bskyAgent = nuxtApp.$agent
+
+async function logout() {
+  try {
+    await bskyAgent.logout()
+  }
+  catch (error) {
+    console.error('Logout failed:', error)
+  }
+  emit('logoutSuccess')
+  navigateTo('/')
+}
+</script>
+
 <template>
     <div class="sidebar">
         <ul>
@@ -18,7 +35,7 @@
                 </NuxtLink>
             </li>
             <li>
-                <button class="button">
+                <button @click="logout" class="button">
                     <span class="icon is-small">
                         <font-awesome :icon="['fas', 'right-from-bracket']"  class="list-icon" />
                     </span>
@@ -27,11 +44,14 @@
             </li>
         </ul>
         <hr />
-        <h3 class="subtitle is-3">
+        <h3 class="subtitle is-4">
             Sunset
         </h3>
         <p>
-            An experimental Bluesky client, made by <a href="/@jsalvador.me">@jsalvador.me</a>.
+            An experimental Bluesky client, made by 
+            <NuxtLink :to="{ name: 'profile-handle', params: { handle: 'jsalvador.me' } }">
+                Juanjo Salvador
+            </NuxtLink>
         </p>
         <br/>
         <ul class="social-links">
@@ -55,6 +75,7 @@
                 </NuxtLink>
             </li>
         </ul>
+        <Announcement />
     </div>
 </template>
 
@@ -63,8 +84,8 @@
   margin-right: 0em;
 }
 .sidebar {
-    position: fixed;
-    top: 4.75rem;
+    position: sticky;
+    top: 1rem;
 }
 .button {
   border: none !important;

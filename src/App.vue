@@ -23,19 +23,23 @@ onBeforeMount(() => {
 function onLoginSuccess() {
   isLoggedIn.value = true
 }
+
+function onLogoutSuccess() {
+  isLoggedIn.value = false
+}
 </script>
 
 <template>
   <div class="container">
     <section class="section" v-if="isLoggedIn">
-      <div class="columns is-3">
-        <div class="column">
+      <div class="columns is-4">
+        <div class="column is-one-quarter">
           <SidebarTools />
         </div>
-        <div class="column is-half">
+        <div class="column is-two-quarters">
           <NuxtPage />
         </div>
-        <div class="column">
+        <div class="column is-one-quarter">
           <SidebarMenu />
         </div>
       </div>
