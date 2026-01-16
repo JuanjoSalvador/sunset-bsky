@@ -10,10 +10,6 @@ const loginError = ref(false)
 async function login() {
   try {
     const result = await bskyAgent.login({ identifier: identifier.value, password: password.value })
-    // eslint-disable-next-line no-console
-    console.log(result)    
-    // eslint-disable-next-line no-console
-    console.log('Login successful')
     emit('loginSuccess') // Emitting the success event
   }
   catch (error) {
@@ -27,11 +23,13 @@ async function login() {
   <section class="section is-vcentered">
     <div class="columns is-flex is-centered">
       <div class="column is-one-third has-text-centered">
+        <Announcement />
+        <br />
         <h1 class="title is-1">
           Sunset
         </h1>
         <h2 class="subtitle">
-          An experimental Bluesky client.
+          Yet Another Bluesky Client.
         </h2>
         <div class="field">
           <div class="control">
@@ -43,7 +41,6 @@ async function login() {
             <input v-model="password" type="password" placeholder="Password" class="input">
           </div>
         </div>
-
         <div class="field is-grouped is-grouped-centered">
           <p class="control">
             <button class="button is-primary" @click="login">

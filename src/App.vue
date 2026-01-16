@@ -23,20 +23,25 @@ onBeforeMount(() => {
 function onLoginSuccess() {
   isLoggedIn.value = true
 }
+
+function onLogoutSuccess() {
+  sessionStore.clearSession()
+  isLoggedIn.value = false
+}
 </script>
 
 <template>
   <div class="container">
     <section class="section" v-if="isLoggedIn">
-      <div class="columns is-3">
-        <div class="column">
+      <div class="columns is-4">
+        <div class="column is-one-quarter">
           <SidebarTools />
         </div>
-        <div class="column is-half">
+        <div class="column is-two-quarters">
           <NuxtPage />
         </div>
-        <div class="column">
-          <SidebarMenu />
+        <div class="column is-one-quarter">
+          <SidebarMenu @logout-success="onLogoutSuccess" />
         </div>
       </div>
     </section>

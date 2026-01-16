@@ -61,7 +61,7 @@ function post() {
                 </div>
         </NuxtLink>
 
-        <textarea class="textarea" rows="10" placeholder="What's up?" v-model="newPost"></textarea>
+        <textarea class="textarea" rows="10" cols="28" placeholder="What's up?" v-model="newPost"></textarea>
         <br/>
         <div class="field is-grouped is-grouped-right">
             <span class="post-length-counter" :class="{ 'has-text-danger': newPost.length > 300 }">
@@ -78,7 +78,8 @@ function post() {
 
 <style scoped>
     .sidebar {
-        position: fixed;
+        position: sticky;
+        top: 1rem;
     }
 
     #user-profile {
@@ -88,9 +89,5 @@ function post() {
     .post-length-counter {
         position: relative;
         top: 0.5rem;
-    }
-
-    #post-composer {
-        height: 4rem;
     }
 </style>
