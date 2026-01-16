@@ -24,7 +24,7 @@ const emits = defineEmits(['likeToggled', 'repostToggled'])
 
 const sessionStore = useSessionStore()
 const nuxtApp = useNuxtApp()
-const bskyAgent = nuxtApp.$bskyAgent
+const bskyAgent = nuxtApp.$agent
 
 const localLikeUri = ref<string | null | undefined>(props.likeUri)
 const localRepostUri = ref<string | null | undefined>(props.repostUri || null)
@@ -93,18 +93,18 @@ async function toggleRepost() {
   <div class="columns is-centered action-buttons">
     <div class="column has-text-centered">
       <div>
-        <button class="button is-white">
+        <button class="button">
           <font-awesome :icon="['far', 'comment']" />
         </button>
       </div>
     </div>
     <div class="column has-text-centered">
-      <button class="button is-white" :class="{ 'text-green': isReposted }" @click="toggleRepost">
+      <button class="button" :class="{ 'text-green': isReposted }" @click="toggleRepost">
         <font-awesome :icon="['fas', 'repeat']" />
       </button>
     </div>
     <div class="column has-text-centered">
-      <button class="button is-white"  @click="toggleLike">
+      <button class="button"  @click="toggleLike">
         <font-awesome :icon="['far', 'heart']" v-if="!isLiked" />
         <font-awesome :icon="['fas', 'heart']" class="text-red" v-if="isLiked" />
       </button>
@@ -113,15 +113,21 @@ async function toggleRepost() {
 </template>
 
 <style scoped>
-.action-buttons {
-  margin-top: 0.05rem;
-}
-
 .text-green {
   color: green;
 }
 
 .text-red {
   color:brown;
+}
+
+.button {
+  border: none !important;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.button:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 </style>

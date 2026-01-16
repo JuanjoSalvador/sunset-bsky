@@ -5,8 +5,6 @@ const props = defineProps({
   post: Object,
 })
 
-const postId = props.post?.post?.uri.split('/').at(-1)
-const postUri = 'https://bsky.app/profile/' + props.author?.handle + '/post/' + postId
 </script>
 
 <template>
@@ -17,24 +15,43 @@ const postUri = 'https://bsky.app/profile/' + props.author?.handle + '/post/' + 
       </figure>
     </div>
     <div class="media-content">
-      <span class="subtitle is-4">
+      <span class="subtitle is-5">
         <span v-if="author?.displayName">
-          <a :href="'profile/' + author?.handle">{{ author?.displayName }}</a>
+          <NuxtLink :to="{ 
+            name: 'profile-handle', 
+            params: { handle: author?.handle } 
+          }">
+            {{ author?.displayName }}
+          </NuxtLink>
         </span>
         <span v-else>
-          <a :href="'profile/' + author?.handle">{{ author?.handle }}</a>
+          <NuxtLink :to="{ 
+            name: 'profile-handle', 
+            params: { handle: author?.handle } 
+          }">
+            {{ author?.handle }}
+          </NuxtLink>
         </span>
+        <p class="small">
+            @{{ author?.handle }}
+        </p>
       </span>
-      <span class="subtitle is-6 handle">@{{ author?.handle }}</span>    
     </div>
-    <div class="media-right">
+    <!-- <div class="media-right">
       <a :href="postUri">{{ timestamp }}</a>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <style scoped>
 span.handle {
   margin-left: 0.25rem;
+}
+.media {
+  margin: 0px !important;
+}
+
+p.small {
+  font-size: small;
 }
 </style>

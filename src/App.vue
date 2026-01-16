@@ -5,7 +5,7 @@ const isLoggedIn = ref(false)
 const isLoading = ref(true)
 const sessionStore = useSessionStore()
 
-onMounted(() => {
+onBeforeMount(() => {
   const storedSession = localStorage.getItem('session')
   if (storedSession && storedSession !== 'undefined') {
     try {
@@ -26,16 +26,16 @@ function onLoginSuccess() {
 </script>
 
 <template>
-  <div class="container" data-theme="dark">
+  <div class="container">
     <section class="section" v-if="isLoggedIn">
-      <div class="columns  is-flex is-centered is-vcentere">
-        <div class="column is-one-fifth">
+      <div class="columns is-3">
+        <div class="column">
           <SidebarTools />
         </div>
-        <div class="column is-three-fifths">
-          <RouterView />
+        <div class="column is-half">
+          <NuxtPage />
         </div>
-        <div class="column is-one-fifth">
+        <div class="column">
           <SidebarMenu />
         </div>
       </div>
@@ -45,3 +45,7 @@ function onLoginSuccess() {
     </div>
   </div>
 </template>
+
+<style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Open+Sans:ital,wght@0,300;1,300&display=swap');
+</style>

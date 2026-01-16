@@ -16,10 +16,10 @@ if (isThread) {
 </script>
 
 <template>
-    <div class="">
+    <div class="is-reply" v-if="reply">
         <div v-if="isReply" class="reason">
             <font-awesome :icon="['fas', 'reply']" />
-            Reply to {{ replyTo?.displayName }}
+            Reply to <a :href="'profile/' + replyTo?.handle">{{ replyTo?.displayName }}</a>.
         </div>
     </div>
 </template>
@@ -27,12 +27,11 @@ if (isThread) {
 <style scoped>
 div.reason {
   margin-left: 4.25rem;
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
+  color: rgb(116, 116, 116);
 }
 
 .post-icon {
-    margin-right: 0.3rem;
+    margin-right: 0.25rem;
     font-size: small;
 }
 </style>

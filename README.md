@@ -1,6 +1,8 @@
-# Nuxt Minimal Starter
+# Sunset
+An experimental Bluesky client written with Vue and Nuxt.
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Reach me on Bluesky! [@jsalvador.me](https://bsky.app/profile/jsalvador.me)
+
 
 ## Setup
 
@@ -38,38 +40,3 @@ yarn dev
 bun run dev
 ```
 
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

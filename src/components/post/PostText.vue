@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useRichText } from '~/composables/useRichText'
+import { RichText } from '@atproto/api'
 
 const props = defineProps({
   text: {
@@ -15,6 +15,7 @@ const props = defineProps({
 })
 
 const { htmlText } = useRichText(props.text, props.agent)
+
 </script>
 
 <template>
@@ -24,7 +25,7 @@ const { htmlText } = useRichText(props.text, props.agent)
 <style scoped>
 div.postText {
   margin-left: 4rem;
-  font-size: larger;
+  white-space: pre-wrap;
 }
 
 div.postText > p + p {
