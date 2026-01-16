@@ -6,12 +6,11 @@ const bskyAgent = nuxtApp.$agent
 async function logout() {
   try {
     await bskyAgent.logout()
+    emit('logoutSuccess')
   }
   catch (error) {
     console.error('Logout failed:', error)
   }
-  emit('logoutSuccess')
-  navigateTo('/')
 }
 </script>
 

@@ -25,6 +25,7 @@ function onLoginSuccess() {
 }
 
 function onLogoutSuccess() {
+  sessionStore.clearSession()
   isLoggedIn.value = false
 }
 </script>
@@ -40,7 +41,7 @@ function onLogoutSuccess() {
           <NuxtPage />
         </div>
         <div class="column is-one-quarter">
-          <SidebarMenu />
+          <SidebarMenu @logout-success="onLogoutSuccess" />
         </div>
       </div>
     </section>
