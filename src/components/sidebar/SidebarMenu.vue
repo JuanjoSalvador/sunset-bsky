@@ -74,6 +74,7 @@ async function logout() {
                 </NuxtLink>
             </li>
         </ul>
+        <br/><br/>
         <Announcement />
     </div>
 </template>
@@ -92,7 +93,7 @@ async function logout() {
 }
 .social-links li {
     margin-right: 0.5em;
-    float: right;
+    float: left;
 }
 .social-link-button {
     position: relative;
