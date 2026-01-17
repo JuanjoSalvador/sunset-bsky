@@ -66,6 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <h1 class="title is-3">Notifications</h1>
   <ul>
     <NotificationItem v-for="notification in notificationsData" :value="notification" />
   </ul>
