@@ -12,6 +12,9 @@ const cursor = ref<string | null>(null)
 const endReached = ref(false)
 const observer = ref<IntersectionObserver | null>(null)
 const userProfile = ref()
+const bioText = computed(() => userProfile.value?.data?.description || '')
+const { segments } = useRichText(bioText, bskyAgent)
+
 const timelineData = ref<Array<any>>([])
 
 const savedSessionData = sessionStore.getSession()
@@ -26,7 +29,7 @@ async function resumeSession() {
 }
 
 async function fetchProfile() {
-    userProfile.value = await bskyAgent.getProfile({actor: userHandle})
+    userProfile.value = await bskyAgent.getProfile({ actor: userHandle })
 }
 
 async function fetchData(cursorValue?: string | null) {
@@ -128,9 +131,23 @@ onBeforeMount(() => {
             </div>
         </div>
 
-        <span style="white-space: pre-wrap;"> 
-            {{ userProfile?.data?.description }}
-        </span>
+        <div class="bio-container mb-4" style="white-space: pre-wrap;">
+        <template v-for="(segment, i) in segments" :key="i">
+            <NuxtLink v-if="segment.isMention()" :to="`/profile/${segment.mention?.did}`">
+                {{ segment.text }}
+            </NuxtLink>
+
+            <NuxtLink v-else-if="segment.isTag()" :to="`/hashtag/${segment.tag?.tag}`">
+                {{ segment.text }}
+            </NuxtLink>
+
+            <a v-else-if="segment.isLink()" :href="segment.link?.uri" target="_blank" rel="nofollow">
+                {{ segment.text }}
+            </a>
+
+            <span v-else>{{ segment.text }}</span>
+        </template>
+    </div>
         
         <hr/>
 

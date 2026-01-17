@@ -110,7 +110,6 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
     </div>
     <div v-if="value?.reason == 'reply'">
         <PostHeader :author="value?.author"  :post="value" :timestamp="value?.record.createdAt" />
-        <PostReply :post="value" />
         <PostText :text="value?.record?.text" :agent="bskyAgent" />
 
         <div v-if="value?.embed?.images" align="center">

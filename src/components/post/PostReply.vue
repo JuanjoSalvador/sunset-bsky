@@ -27,7 +27,6 @@ if (authorDid) {
 // if (isThread) {
 //     isReply.value = false
 // }
-console.log("replyTo:", replyTo)
 </script>
 
 <template>

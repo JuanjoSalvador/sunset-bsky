@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import PostReply from './PostReply.vue';
-
 const props = defineProps({
   author: Object,
   timestamp: String,
   post: Object,
 })
-
-const isRepost : boolean = Boolean(props.post?.reason === 'app.bsky.feed.repost');
+const isRepost : boolean = Boolean(props.post?.reason?.["$type"] === 'app.bsky.feed.defs#reasonRepost');
 </script>
 
 <template>
@@ -46,12 +43,13 @@ const isRepost : boolean = Boolean(props.post?.reason === 'app.bsky.feed.repost'
     </div> -->
   </div>
 
-  <!-- <PostReply :post="post" /> -->
+  <PostReply :post="post" />
 </template>
 
 <style scoped>
 div.reason-container {
   margin-bottom: 0.5rem;
+  margin-left: 4rem;
   font-size: small;
 }
 
