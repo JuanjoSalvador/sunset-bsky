@@ -57,6 +57,15 @@ async function login() {
       </div>
     </div>
   </section>
+  <section class="section has-text-centered is-size-7">
+    <span>
+      Created and maintained by <a href="https://bsky.app" target="_blank" rel="noopener noreferrer">Juanjo Salvador</a>. Not affiliated with Bluesky Social.
+    </span>
+    <p>
+      Don't have an account? Sign up at
+      <a href="https://bsky.app" target="_blank" rel="noopener noreferrer">bsky.app</a>
+    </p>
+  </section>
 </template>
 
 <style scoped>
@@ -65,4 +74,5 @@ async function login() {
   -webkit-box-align: center;
      -ms-flex-align: center;
 }
+
 </style>
