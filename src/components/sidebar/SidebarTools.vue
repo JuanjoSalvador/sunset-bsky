@@ -61,7 +61,12 @@ function post() {
                 </div>
         </NuxtLink>
 
-        <textarea class="textarea" rows="10" cols="28" placeholder="What's up?" v-model="newPost"></textarea>
+        <textarea class="textarea" 
+            rows="10" cols="28" 
+            placeholder="What's up?" 
+            v-model="newPost" 
+            @keydown.ctrl.enter.prevent="post()"
+        ></textarea>
         <br/>
         <div class="field is-grouped is-grouped-right">
             <span class="post-length-counter" :class="{ 'has-text-danger': newPost.length > 300 }">
