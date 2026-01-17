@@ -7,6 +7,17 @@ const nuxtApp = useNuxtApp()
 const bskyAgent = nuxtApp.$agent
 const currentPost = ref()
 
+const likeUri = ref(props.value?.post?.viewer?.like)
+const repostUri = ref(props.value?.post?.viewer?.repost)
+
+function handleLikeToggled(newLikeUri: string | null) {
+  likeUri.value = newLikeUri
+}
+
+function handleRepostToggled(newRepostUri: string | null) {
+  repostUri.value = newRepostUri
+}
+
 if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
     const currentPostUri = computed(() => props.value?.reasonSubject)
     currentPost.value = await bskyAgent.getPosts({
@@ -62,7 +73,7 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
                     </strong>
                 </p>
                 <div class="notification-post has-text-grey">
-                    {{ currentPost.data.posts[0].record.text }}
+                    {{ currentPost.data.posts[0]?.record?.text }}
                 </div>
             </div>
         </div>
@@ -78,6 +89,9 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
             <div class="media-content">
                 <p class="subtitle is-6">
                     <strong>
+                        <span class="repost-icon">
+                            <font-awesome :icon="['fas', 'repeat']" class="text-green" />
+                        </span>
                         <span v-if="value?.author?.displayName">
                             <a :href="'profile/' + value?.author?.handle">{{ value?.author?.displayName }}</a>
                         </span>
@@ -96,7 +110,7 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
     </div>
     <div v-if="value?.reason == 'reply'">
         <PostHeader :author="value?.author"  :post="value" :timestamp="value?.record.createdAt" />
-        <PostReply :post="value" :reply="value?.record?.reply" />
+        <PostReply :post="value" />
         <PostText :text="value?.record?.text" :agent="bskyAgent" />
 
         <div v-if="value?.embed?.images" align="center">
@@ -131,6 +145,11 @@ div.notification-post {
 .like-icon {
     margin-right: 0.5em;
     color: brown;
-    font-size: x-large;
+    font-size: medium;
+}
+.repost-icon {
+    margin-right: 0.5em;
+    color: rgb(3, 134, 69);
+    font-size: medium;
 }
 </style>

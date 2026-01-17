@@ -3,7 +3,11 @@ import { useFeedStore } from '~/stores/feed'
 
 export async function usePost(inputSchema: ComAtprotoRepoCreateRecord.InputSchema) {
   const nuxtApp = useNuxtApp()
+  const sessionStore = useSessionStore()
   const bskyAgent = nuxtApp.$agent
+
+  const currentUserDid = sessionStore.getSession().did
+  const currentUser = await nuxtApp.$agent.getProfile({'actor': currentUserDid})
 
   try {
     const input: ComAtprotoRepoCreateRecord.InputSchema = {
@@ -20,14 +24,20 @@ export async function usePost(inputSchema: ComAtprotoRepoCreateRecord.InputSchem
           throw error
         })
 
-    // ✅ Verificamos que hay datos válidos antes de refrescar el feed
     if (response?.data?.uri) {
       const feedStore = useFeedStore()
       feedStore.posts.unshift({
         post: {
           uri: response.data.uri,
           cid: response.data.cid,
-          record: input.record
+          author: {
+            did: currentUser.data.did,
+            handle: currentUser.data.handle,
+            displayName: currentUser.data.displayName,
+            avatar: currentUser.data.avatar
+          },
+          record: input.record,
+          indexedAt: ''
         }
       })
       console.log("Post insertado en la TL")

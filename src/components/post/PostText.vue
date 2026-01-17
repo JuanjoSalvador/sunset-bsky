@@ -29,6 +29,6 @@ div.postText {
 }
 
 div.postText > p + p {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 </style>

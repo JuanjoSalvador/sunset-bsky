@@ -2,8 +2,6 @@
 import PostText from './PostText.vue';
 import PostHeader from './PostHeader.vue';
 import PostActions from './PostActions.vue';
-import PostReply from './PostReply.vue';
-import PostReason from './PostReason.vue';
 
 const props = defineProps({
     post: Object,
@@ -30,9 +28,7 @@ function openPost() {
 
 <template>
     <div @click="openPost()">
-        <PostReason :reason="post?.reason" />
         <PostHeader :author="currentPost?.author"  :post="post" :timestamp="currentPost?.record.createdAt" />
-        <PostReply :post="post" :reply="post?.reply" />
         <PostText :text="currentPost?.record?.text" :agent="agent" />
         <div v-if="currentPost?.embed?.images">
             <figure v-for="image in currentPost?.embed?.images" :key="image.thumb" class="image">
@@ -63,6 +59,7 @@ function openPost() {
     max-width: 80%;
     max-height: 50%;
     margin-left: 4rem;
+    margin-bottom: 1rem;
     border-radius: 1rem;
     padding: 0.2rem;
     border: 0.1rem solid rgb(238, 215, 182);

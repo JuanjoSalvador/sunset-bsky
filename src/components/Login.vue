@@ -6,15 +6,16 @@ const bskyAgent = nuxtApp.$agent
 const identifier = ref('')
 const password = ref('')
 const loginError = ref(false)
+const errorMessage = ref('')
 
 async function login() {
   try {
-    const result = await bskyAgent.login({ identifier: identifier.value, password: password.value })
+    await bskyAgent.login({ identifier: identifier.value, password: password.value })
     emit('loginSuccess') // Emitting the success event
   }
-  catch (error) {
-    console.error('Login failed:', error)
+  catch (error : any) {
     loginError.value = true
+    errorMessage.value = error.message
   }
 }
 </script>
@@ -23,7 +24,9 @@ async function login() {
   <section class="section is-vcentered">
     <div class="columns is-flex is-centered">
       <div class="column is-one-third has-text-centered">
-        <Announcement />
+        <figure>
+          <img src="/sunset-logo.png" alt="Sunset Logo" width="200" height="200" />
+        </figure>
         <br />
         <h1 class="title is-1">
           Sunset
@@ -33,13 +36,14 @@ async function login() {
         </h2>
         <div class="field">
           <div class="control">
-            <input v-model="identifier" placeholder="Email or username" class="input">
+            <input v-model="identifier" placeholder="Email or username" class="input" v-bind:class="loginError ? 'is-danger' : ''">
           </div>
         </div>
         <div class="field">
           <div class="control">
-            <input v-model="password" type="password" placeholder="Password" class="input">
+            <input v-model="password" type="password" placeholder="Password" class="input" v-bind:class="loginError ? 'is-danger' : ''">
           </div>
+          <p class="help is-danger">{{ errorMessage}}</p>
         </div>
         <div class="field is-grouped is-grouped-centered">
           <p class="control">
@@ -48,6 +52,8 @@ async function login() {
             </button>
           </p>
         </div>
+        <br />
+        <Announcement />
       </div>
     </div>
   </section>
