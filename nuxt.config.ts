@@ -2,7 +2,16 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
-    keepalive: true
+    keepalive: true,
+    head: {
+      title: 'Sunset',
+      htmlAttrs: {
+        lang: 'en',
+      },
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      ],
+    },
   },
   css: ['bulma/css/bulma.min.css'],
   modules: ['@pinia/nuxt', '@vesp/nuxt-fontawesome', 'nuxt-twemoji', '@nuxtjs/google-fonts'],

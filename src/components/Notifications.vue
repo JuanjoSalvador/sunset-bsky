@@ -9,7 +9,6 @@ const sessionStore = useSessionStore()
 const loading = ref(false)
 const notificationsData = ref<Array<any>>([])
 const cursor = ref<string | undefined>(undefined)
-const endReached = ref(false)
 const observer = ref<IntersectionObserver | null>(null)
 
 const savedSessionData = sessionStore.getSession()
@@ -62,11 +61,10 @@ onMounted(() => {
   })
 
   observer.value.observe(document.querySelector('#endOfList')!)
-})  
+})
 </script>
 
 <template>
-  <h1 class="title is-3">Notifications</h1>
   <ul>
     <NotificationItem v-for="notification in notificationsData" :value="notification" />
   </ul>

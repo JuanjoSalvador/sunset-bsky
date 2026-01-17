@@ -2,9 +2,12 @@
 import type { ComAtprotoRepoCreateRecord } from '@atproto/api'
 import { useSessionStore } from '~/stores/session'
 
-const nuxtApp = useNuxtApp()
+const nuxtApp : any = useNuxtApp()
 const $agent = nuxtApp.$agent
 const sessionStore = useSessionStore()
+const route = useRoute()
+
+const currentPage = ref('')
 
 const savedSessionData = sessionStore.getSession()
 if (savedSessionData)
@@ -13,6 +16,17 @@ if (savedSessionData)
 const currentUserDid = sessionStore.getSession().did
 const currentUser = await $agent.getProfile({'actor': currentUserDid})
 const newPost = ref('')
+
+// Watch for changes in the path, and update the title in the sidebar
+// dynamically-
+watch(() => route.name, () => {
+  const titles: Record<string, string> = {
+    'notifications': 'Notificaciones',
+    'profile-handle': 'Perfil',
+    'index': 'Inicio'
+  }
+  currentPage.value = titles[route.name as string] || 'Sunset'
+}, { immediate: true })
 
 function post() {
     const postSchema: ComAtprotoRepoCreateRecord.InputSchema = {
@@ -37,6 +51,11 @@ function post() {
 
 <template>
     <div class="sidebar">
+        <div class="page-title">
+            <h1 class="title is-3">
+                {{ currentPage }}
+            </h1>
+        </div>
         <NuxtLink :to="{
             name: 'profile-handle', 
             params: { handle: currentUser.data.handle }
@@ -94,5 +113,9 @@ function post() {
     .post-length-counter {
         position: relative;
         top: 0.5rem;
+    }
+
+    .page-title {
+        margin-bottom: 1rem;
     }
 </style>
