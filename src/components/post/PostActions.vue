@@ -90,7 +90,7 @@ async function toggleRepost() {
 </script>
 
 <template>
-  <div class="columns is-centered action-buttons">
+  <div class="columns is-centered action-buttons is-mobile">
     <div class="column has-text-centered">
       <div>
         <button class="button">

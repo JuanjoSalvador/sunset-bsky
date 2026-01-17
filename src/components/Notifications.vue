@@ -27,16 +27,19 @@ async function fetchData(cursorValue?: string | null) {
       ? {'limit': 20}
       : {'limit': 20, 'cursor': cursorValue}
 
-    const response = await useNotifications(options)
+    await useNotifications(options).then(response => {
+      notificationsData.value = [...(response?.notifications || [])]
     
-    notificationsData.value = [...(response?.notifications || [])]
-    
-    if (response?.cursor) {
-      cursor.value = response?.cursor
-    } else {
-      if (observer.value)
-        observer.value.unobserve(document.querySelector('#endOfList')!)
+      if (response?.cursor) {
+        cursor.value = response?.cursor
+      } else {
+        if (observer.value)
+         observer.value.unobserve(document.querySelector('#endOfList')!)
+      }
     }
+  )
+    
+    
   } catch (error) {
     console.log("An error ocurred!", error)
   } finally {
@@ -63,6 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <h1 class="title is-3">Notifications</h1>
   <ul>
     <NotificationItem v-for="notification in notificationsData" :value="notification" />
   </ul>

@@ -27,6 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <h1 class="title is-3">Home</h1>
   <ul>
     <Post v-for="post in posts" :key="post.post.uri" :post="post" :agent="$agent"/>
   </ul>

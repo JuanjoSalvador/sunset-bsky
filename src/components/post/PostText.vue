@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { RichText } from '@atproto/api'
-
 const props = defineProps({
   text: {
     type: String,
@@ -14,21 +12,47 @@ const props = defineProps({
   },
 })
 
-const { htmlText } = useRichText(props.text, props.agent)
-
+const { segments } = useRichText(props.text, props.agent)
 </script>
 
 <template>
-  <div v-if="htmlText" v-html="htmlText" class="postText" />
+  <div class="post-content">
+    <template v-for="(segment, index) in segments" :key="index">
+      <NuxtLink 
+        v-if="segment.isMention()" 
+        :to="{ name: 'profile-handle', params: { handle: segment.mention?.did } }"
+      >
+        {{ segment.text }}
+      </NuxtLink>
+
+      <NuxtLink 
+        v-else-if="segment.isTag()" 
+        :to="`/hashtag/${segment.tag?.tag}`"
+      >
+        {{ segment.text }}
+      </NuxtLink>
+
+      <a 
+        v-else-if="segment.isLink()" 
+        :href="segment.link?.uri" 
+        target="_blank" 
+      >
+        {{ segment.text }}
+      </a>
+
+      <span v-else>{{ segment.text }}</span>
+    </template>
+  </div>
 </template>
 
 <style scoped>
-div.postText {
+div.post-content {
   margin-left: 4rem;
+  margin-bottom: 0.5rem;
   white-space: pre-wrap;
 }
 
-div.postText > p + p {
-  margin-top: 1rem;
+div.post-content > p + p {
+  margin-top: 0.5rem;
 }
 </style>

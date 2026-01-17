@@ -1,26 +1,38 @@
 <script setup lang="ts">
 const props = defineProps({
     post: Object,
-    reply: Object
 })
 
-const replyTo = props.reply?.parent?.author
-const postAuthor = props.post?.post?.author
+const nuxtApp = useNuxtApp()
+const bskyAgent = nuxtApp.$agent
+const replyTo = ref()
 
-const isReply = ref(Boolean(props.reply))
-const isThread = isReply && (props.reply?.parent?.author?.did == postAuthor?.did)
+let authorDid = props.post?.reasonSubject?.split('/')[2] || props.post?.reply?.parent?.author?.did;
 
-if (isThread) {
-    isReply.value = false
+if (authorDid) {
+    await bskyAgent.getProfile({ actor: authorDid }).then((profile) => {
+        replyTo.value = {
+            handle: profile.data.handle,
+            displayName: profile.data.displayName || profile.data.handle
+        }
+    }).catch((error) => {
+        console.log("Error fetching profile:", error)
+        replyTo.value = null; // Limpiamos en caso de error
+    })
 }
+
+// const isReply = ref(Boolean(props.replyTo))
+// const isThread = isReply && (props.replyTo?.parent?.author?.did == postAuthor?.did)
+
+// if (isThread) {
+//     isReply.value = false
+// }
 </script>
 
 <template>
-    <div class="is-reply" v-if="reply">
-        <div v-if="isReply" class="reason">
-            <font-awesome :icon="['fas', 'reply']" />
-            Reply to <a :href="'profile/' + replyTo?.handle">{{ replyTo?.displayName }}</a>.
-        </div>
+    <div class="is-reply reason" v-if="replyTo?.handle">
+        <font-awesome :icon="['fas', 'reply']" />
+        Reply to <NuxtLink :to="{ name: 'profile-handle', params: { handle: replyTo?.handle } }">{{ replyTo?.displayName }}</NuxtLink>.
     </div>
 </template>
 
@@ -28,10 +40,16 @@ if (isThread) {
 div.reason {
   margin-left: 4.25rem;
   color: rgb(116, 116, 116);
+  font-size: small;
+  margin-bottom: 0.5rem;
 }
 
 .post-icon {
     margin-right: 0.25rem;
-    font-size: small;
+    font-size: x-small;
+}
+
+.hidden {
+    display: none;
 }
 </style>
