@@ -10,9 +10,7 @@ const { posts, loading } = storeToRefs(feedStore)  // reactive refs del store
 // Infinite scroll
 const observer = ref<IntersectionObserver | null>(null)
 
-onBeforeMount(async () => {
-  await feedStore.fetchFeed()
-})
+onBeforeMount(async () => await feedStore.fetchFeed())
 
 onMounted(() => {
   // Configurar IntersectionObserver para infinite scroll

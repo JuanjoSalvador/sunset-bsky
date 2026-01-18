@@ -4,8 +4,10 @@ import { useSessionStore } from '~/stores/session'
 
 const nuxtApp : any = useNuxtApp()
 const $agent = nuxtApp.$agent
+
 const sessionStore = useSessionStore()
 const route = useRoute()
+const toast = useToast()
 
 const currentPage = ref('')
 
@@ -40,8 +42,9 @@ function post() {
     }
     try {
         usePost(postSchema)
+        toast.success({ title: 'Success!', message: 'Post sent successfully.' })
     } catch (error) {
-        console.log(error)
+        toast.error({ title: 'Something went wrong :(', message: 'Your post cannot be sent right now.' })
     }
 
     // Clear
