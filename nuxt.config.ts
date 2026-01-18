@@ -20,7 +20,7 @@ export default defineNuxtConfig({
   ],
   fontawesome: {
     icons: {
-      solid: ['repeat', 'heart', 'bell', 'right-from-bracket', 'house', 'reply', 'book-open', 'share-nodes'],
+      solid: ['repeat', 'heart', 'bell', 'right-from-bracket', 'house', 'reply', 'book-open', 'share-nodes', 'user-plus'],
       regular: ['comment', 'heart'],
       brands: ['github', 'bluesky']
     }

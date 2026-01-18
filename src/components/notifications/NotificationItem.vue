@@ -37,6 +37,9 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
             <div class="media-content">
                 <p class="subtitle is-6">
                     <strong>
+                        <span class="notification-icon follow-icon">
+                            <font-awesome :icon="['fas', 'user-plus']" class="text-red" />
+                        </span>
                         <span v-if="value?.author?.displayName">
                             <a :href="'profile/' + value?.author?.handle">{{ value?.author?.displayName }}</a>
                         </span>
@@ -51,7 +54,7 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
         <hr/>
     </div>
     <div v-if="value?.reason == 'like'">
-        <div class="media like">
+        <div class="media like-content">
             <div class="media-left">
                 <figure class="image is-32x32 ">
                     <img :src="value?.author?.avatar" class="is-rounded" />
@@ -60,7 +63,7 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
             <div class="media-content">
                 <p class="subtitle is-6">
                     <strong>
-                        <span class="like-icon">
+                        <span class="notification-icon like-icon">
                             <font-awesome :icon="['fas', 'heart']" class="text-red" />
                         </span>
                         <span v-if="value?.author?.displayName">
@@ -80,7 +83,7 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
         <hr/>
     </div>
     <div v-if="value?.reason == 'repost'">
-        <div class="media">
+        <div class="media repost-content">
             <div class="media-left">
                 <figure class="image is-32x32 ">
                     <img :src="value?.author?.avatar" class="is-rounded" />
@@ -89,7 +92,7 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
             <div class="media-content">
                 <p class="subtitle is-6">
                     <strong>
-                        <span class="repost-icon">
+                        <span class="notification-icon repost-icon">
                             <font-awesome :icon="['fas', 'repeat']" class="text-green" />
                         </span>
                         <span v-if="value?.author?.displayName">
@@ -138,17 +141,21 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
 div.notification-post {
     margin-left: 0.25rem;
 }
-.like {
+
+.like-content, .repost-content {
     font-size: smaller;
 }
-.like-icon {
+
+.notification-icon {
     margin-right: 0.5em;
-    color: brown;
     font-size: medium;
 }
+
+.like-icon {
+    color: brown;
+}
+
 .repost-icon {
-    margin-right: 0.5em;
     color: rgb(3, 134, 69);
-    font-size: medium;
 }
 </style>
