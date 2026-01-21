@@ -2,6 +2,7 @@
 const emit = defineEmits(['logoutSuccess'])
 const nuxtApp = useNuxtApp()
 const bskyAgent = nuxtApp.$agent
+const feedStore = useFeedStore()
 
 async function logout() {
   try {
@@ -12,13 +13,17 @@ async function logout() {
     console.error('Logout failed:', error)
   }
 }
+
+async function refreshFeed() {
+    feedStore.fetchFeed();
+}
 </script>
 
 <template>
     <div class="sidebar">
         <ul>
             <li>
-                <NuxtLink to="/" class="button" activeClass="active">
+                <NuxtLink to="/" class="button" activeClass="active" @click="refreshFeed">
                     <span class="icon is-small">
                         <font-awesome :icon="['fas', 'house']" class="list-icon" /> 
                     </span>

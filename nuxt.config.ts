@@ -14,9 +14,18 @@ export default defineNuxtConfig({
     },
   },
   css: ['bulma/css/bulma.min.css'],
-  modules: ['@pinia/nuxt', '@vesp/nuxt-fontawesome', 'nuxt-twemoji', '@nuxtjs/google-fonts'],
+  modules: [
+    '@pinia/nuxt',
+    '@vesp/nuxt-fontawesome',
+    'nuxt-twemoji',
+    '@nuxtjs/google-fonts',
+    'nuxt-toast'
+  ],
   plugins: [
-    { src: '~/plugins/bsky-agent.ts', mode: 'client' },
+    {
+      src: '~/plugins/bsky-agent.ts',
+      mode: 'client'
+    },
   ],
   fontawesome: {
     icons: {
