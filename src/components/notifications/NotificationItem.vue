@@ -75,8 +75,8 @@ if (props.value?.reason == 'like' || props.value?.reason == 'repost') {
                         liked your post!
                     </strong>
                 </p>
-                <div class="notification-post has-text-grey">
-                    {{ currentPost.data.posts[0]?.record?.text }}
+                <div class="notification-post has-text-grey" v-if="currentPost">
+                    {{ currentPost.data.posts[0].record.text }}
                 </div>
             </div>
         </div>
