@@ -20,6 +20,11 @@ onBeforeMount(() => {
   isLoading.value = false
 })
 
+onMounted(() => {
+  if (!isLoggedIn.value)
+    console.log("Not logged in")
+})
+
 function onLoginSuccess() {
   isLoggedIn.value = true
 }
@@ -32,7 +37,11 @@ function onLogoutSuccess() {
 
 <template>
   <div class="container">
-    <section class="section" v-if="isLoggedIn">
+    <div v-if="!isLoggedIn">
+      <Login @login-success="onLoginSuccess" />
+    </div>
+
+    <section class="section" v-else>
       <div class="columns is-4">
         <div class="column is-one-quarter">
           <SidebarTools />
@@ -45,12 +54,12 @@ function onLogoutSuccess() {
         </div>
       </div>
     </section>
-    <div v-else>
-      <Login v-if="!isLoggedIn" @login-success="onLoginSuccess" />
-    </div>
   </div>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Open+Sans:ital,wght@0,300;1,300&display=swap');
+.is-fixed {
+  position: fixed;
+}
 </style>

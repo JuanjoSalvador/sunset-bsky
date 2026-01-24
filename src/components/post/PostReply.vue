@@ -7,7 +7,7 @@ const nuxtApp = useNuxtApp()
 const bskyAgent = nuxtApp.$agent
 const replyTo = ref()
 
-let authorDid = props.post?.reasonSubject?.split('/')[2] || props.post?.reply?.parent?.author?.did;
+let authorDid = props.post?.record?.reply?.parent?.uri.split('/')[2] || props.post?.reply?.parent?.author?.did;
 
 if (authorDid) {
     await bskyAgent.getProfile({ actor: authorDid }).then((profile) => {
