@@ -3,6 +3,7 @@ const emit = defineEmits(['logoutSuccess'])
 const nuxtApp = useNuxtApp()
 const bskyAgent = nuxtApp.$agent
 const feedStore = useFeedStore()
+const route = useRoute();
 
 async function logout() {
   try {
@@ -14,30 +15,40 @@ async function logout() {
   }
 }
 
-async function refreshFeed() {
-    feedStore.fetchFeed();
+async function refreshFeed(feed: string) {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    })
+
+    console.log(feed)
+
+    if (feed === "home")
+        feedStore.fetchFeed();
 }
 </script>
 
 <template>
     <div class="sidebar">
-        <ul>
+        <ul class="list-buttons">
             <li>
-                <NuxtLink to="/" class="button" activeClass="active" @click="refreshFeed">
+                <NuxtLink to="/" class="button" activeClass="active" @click="refreshFeed('home')">
                     <span class="icon is-small">
                         <font-awesome :icon="['fas', 'house']" class="list-icon" /> 
                     </span>
                     <span>Home</span>
                 </NuxtLink>
             </li>
+            <br/>
             <li> 
-                <NuxtLink to="/notifications" class="button" activeClass="active">
+                <NuxtLink to="/notifications" class="button" activeClass="active" @click="refreshFeed('notifications')">
                     <span class="icon is-small">
                         <font-awesome :icon="['fas', 'bell']" class="list-icon" />
                     </span>
                     <span>Notifications</span>
                 </NuxtLink>
             </li>
+            <br/>
             <li>
                 <button @click="logout" class="button">
                     <span class="icon is-small">
@@ -104,6 +115,9 @@ async function refreshFeed() {
     position: relative;
     margin-left: 0.5em;
     top: -0.1em;
+}
+.active {
+    background-color: lightslategrey;
 }
 
 </style>
