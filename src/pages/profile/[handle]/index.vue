@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { useSessionStore } from '~/stores/session'
+<<<<<<< HEAD
+=======
+import { useRichText } from '~/composables/useRichText'
+>>>>>>> 73eba73635886f75860f87c1a080b5a640fb9bf4
 
 const nuxtApp = useNuxtApp()
 const bskyAgent = nuxtApp.$agent
