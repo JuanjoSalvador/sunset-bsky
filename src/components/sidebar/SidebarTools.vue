@@ -42,7 +42,7 @@ function post() {
     }
     try {
         usePost(postSchema)
-        toast.success({ title: 'Success!', message: 'Post sent successfully.' })
+        toast.success({ title: 'Post sent!', message: 'Your post was sent successfully.' })
     } catch (error) {
         toast.error({ title: 'Something went wrong :(', message: 'Your post cannot be sent right now.' })
     }

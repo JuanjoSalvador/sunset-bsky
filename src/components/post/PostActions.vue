@@ -22,6 +22,7 @@ const props = defineProps({
 
 const emits = defineEmits(['likeToggled', 'repostToggled'])
 
+const toast = useToast()
 const sessionStore = useSessionStore()
 const nuxtApp = useNuxtApp()
 const bskyAgent = nuxtApp.$agent
@@ -42,7 +43,7 @@ async function toggleLike() {
 
   if (isLiked.value && localLikeUri.value) {
     await bskyAgent.deleteLike(localLikeUri.value)
-    console.log('Successfully deleted like.')
+    toast.info({title: "Like removed", message: "Like removed successfully"})
     localLikeUri.value = null
     isLiked.value = false
     emits('likeToggled', null)
@@ -50,13 +51,12 @@ async function toggleLike() {
   else {
     const response = await bskyAgent.like(props.postUri, props.postCid)
     if (response && response.uri) {
-      console.log('Successfully liked post.')
       localLikeUri.value = response.uri
       emits('likeToggled', response.uri)
       isLiked.value = true
     }
     else {
-      console.error('Failed to retrieve the likeUri from the response.')
+      toast.error({title: 'Like failed', message: 'Something went wrong while liking this post.'})
       emits('likeToggled', null)
     }
   }
@@ -68,7 +68,7 @@ async function toggleRepost() {
 
   if (isReposted.value && localRepostUri.value) {
     await bskyAgent.deleteRepost(localRepostUri.value)
-    console.log('Successfully deleted repost.')
+    toast.success({ title: 'Success!', message: 'Successfully deleted repost.' })
     localRepostUri.value = null
     isReposted.value = false
     emits('repostToggled', null)
@@ -76,12 +76,12 @@ async function toggleRepost() {
   else {
     const response = await bskyAgent.repost(props.postUri, props.postCid)
     if (response && response.uri) {
-      console.log('Successfully reposted post.')
+      toast.success({ title: 'Success!', message: 'Successfully reposted post.' })
       localRepostUri.value = response.uri
       emits('repostToggled', response.uri)
       isReposted.value = true
-    }
-    else {
+    } else {
+      toast.error({title: 'Repost failed', message: 'Something went wrong while reposting this post.'})
       console.error('Repost response does not contain the expected structure.')
       emits('repostToggled', null)
     }
