@@ -8,7 +8,7 @@ const sessionStore = useSessionStore()
 
 const loading = ref(false)
 const notificationsData = ref<Array<any>>([])
-const cursor = ref<string | undefined>(undefined)
+const cursor = ref<string | null>(null)
 const observer = ref<IntersectionObserver | null>(null)
 
 const savedSessionData = sessionStore.getSession()
@@ -22,25 +22,34 @@ async function fetchData(cursorValue?: string | null) {
   loading.value = true
 
   try {
-    let options = cursorValue === null
-      ? {'limit': 20}
-      : {'limit': 20, 'cursor': cursorValue}
+    const options = { 
+      limit: 20, 
+      ...(cursorValue ? { cursor: cursorValue } : {}) 
+    }
 
-    await useNotifications(options).then(response => {
-      notificationsData.value = [...(response?.notifications || [])]
+    const response = await useNotifications(options)
     
-      if (response?.cursor) {
-        cursor.value = response?.cursor
+    if (response?.notifications) {
+      // Carga notificaciones reemplazando el valor inicial (null) si no hay datos, o concatenando si hay.
+      if (!cursorValue) {
+        notificationsData.value = response.notifications
       } else {
-        if (observer.value)
-         observer.value.unobserve(document.querySelector('#endOfList')!)
+        notificationsData.value = [...notificationsData.value, ...response.notifications]
       }
     }
-  )
-    
+
+    // Manejo del cursor y observador. Limpia el cursor si no hay más datos, y desconecta.
+    if (response?.cursor) {
+      cursor.value = response.cursor
+    } else {
+      cursor.value = null
+      if (observer.value) {
+        observer.value.disconnect()
+      }
+    }
     
   } catch (error) {
-    console.log("An error ocurred!", error)
+    console.error("An error occurred!", error)
   } finally {
     loading.value = false
   }
