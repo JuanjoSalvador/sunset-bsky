@@ -14,7 +14,6 @@ const { segments } = useRichText(bioText, bskyAgent)
 const savedSessionData = sessionStore.getSession()
 const userHandle = route.params.handle as string
 const followLabel = ref()
-const pinnedPost = ref()
 
 followLabel.value = "Follow"
 
