@@ -26,8 +26,11 @@ onMounted(() => {
 
 <template>
   <ul>
-    <Post v-for="post in posts" :key="post.post.uri" :post="post" :agent="$agent"/>
+    <Post v-for="post in posts" :key="post.post.uri" :post="post" :agent="$agent" />
   </ul>
 
   <div id="endOfList" />
 </template>
+
+<style scoped>
+</style>

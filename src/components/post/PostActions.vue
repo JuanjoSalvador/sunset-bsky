@@ -93,18 +93,18 @@ async function toggleRepost() {
   <div class="columns is-centered action-buttons is-mobile">
     <div class="column has-text-centered">
       <div>
-        <button class="button">
+        <button class="button is-ghost">
           <font-awesome :icon="['far', 'comment']" />
         </button>
       </div>
     </div>
     <div class="column has-text-centered">
-      <button class="button" :class="{ 'text-green': isReposted }" @click="toggleRepost">
+      <button class="button is-ghost" :class="{ 'text-green': isReposted }" @click="toggleRepost">
         <font-awesome :icon="['fas', 'repeat']" />
       </button>
     </div>
     <div class="column has-text-centered">
-      <button class="button"  @click="toggleLike">
+      <button class="button is-ghost"  @click="toggleLike">
         <font-awesome :icon="['far', 'heart']" v-if="!isLiked" />
         <font-awesome :icon="['fas', 'heart']" class="text-red" v-if="isLiked" />
       </button>
@@ -124,6 +124,7 @@ async function toggleRepost() {
 .button {
   border: none !important;
   transition: transform 0.1s ease, box-shadow 0.1s ease;
+  color: white;
 }
 
 .button:active {
