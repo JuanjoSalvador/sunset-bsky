@@ -47,7 +47,8 @@ const { segments } = useRichText(props.text, props.agent)
 
 <style scoped>
 div.post-content {
-  margin-left: 4rem;
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   white-space: pre-wrap;
 }

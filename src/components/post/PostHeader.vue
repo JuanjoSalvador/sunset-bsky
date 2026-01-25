@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const props = defineProps({
   author: Object,
-  timestamp: String,
+  // timestamp: String,
   post: Object,
 })
 const isRepost : boolean = Boolean(props.post?.reason?.["$type"] === 'app.bsky.feed.defs#reasonRepost');
@@ -11,7 +11,9 @@ const isRepost : boolean = Boolean(props.post?.reason?.["$type"] === 'app.bsky.f
   <div class="reason-container">
     <div v-if="isRepost">
         <font-awesome :icon="['fas', 'repeat']" class="post-icon" />
-        Reposted by <NuxtLink :to="{ name: 'profile-handle', params: { handle: post?.reason.by.handle } }">{{ post?.reason.by.displayName }}</NuxtLink>
+        Reposted by <NuxtLink :to="{ name: 'profile-handle', params: { handle: post?.reason.by.handle } }" @click.stop>
+          {{ post?.reason.by.displayName }}
+        </NuxtLink>
     </div>
   </div>
 
@@ -24,12 +26,12 @@ const isRepost : boolean = Boolean(props.post?.reason?.["$type"] === 'app.bsky.f
     <div class="media-content">
       <span class="subtitle is-5">
         <span v-if="author?.displayName">
-          <NuxtLink :to="{ name: 'profile-handle', params: { handle: author.handle } }">
+          <NuxtLink :to="{ name: 'profile-handle', params: { handle: author.handle } }" @click.stop>
             {{ author?.displayName }}
           </NuxtLink>
         </span>
         <span v-else>
-          <NuxtLink :to="{ name: 'profile-handle', params: { handle: author?.handle } }">
+          <NuxtLink :to="{ name: 'profile-handle', params: { handle: author?.handle } }" @click.stop>
             {{ author?.handle }}
           </NuxtLink>
         </span>
@@ -49,7 +51,7 @@ const isRepost : boolean = Boolean(props.post?.reason?.["$type"] === 'app.bsky.f
 <style scoped>
 div.reason-container {
   margin-bottom: 0.5rem;
-  margin-left: 4rem;
+  margin-left: 0.5rem;
   font-size: small;
 }
 
@@ -65,11 +67,12 @@ div.reason a {
 }
 
 span.handle {
-  margin-left: 0.25rem;
+  margin-left: 0.5rem;
 }
 
 .media {
-  margin: 0px !important;
+  margin-left: 0.5rem;
+  margin-bottom: 0.15rem;
 }
 
 p.small {
