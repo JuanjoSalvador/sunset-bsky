@@ -31,6 +31,3 @@ onMounted(() => {
 
   <div id="endOfList" />
 </template>
-
-<style scoped>
-</style>

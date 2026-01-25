@@ -19,9 +19,9 @@ await bskyAgent.getPostThread({
     }
 )
 
-const likeUri = ref(currentPost?.viewer?.like)
-const repostUri = ref(currentPost?.viewer?.repost)
-const maxColumns = currentPost.value.embed?.images.length
+const likeUri = ref(currentPost.value?.viewer?.like)
+const repostUri = ref(currentPost.value?.viewer?.repost)
+const maxColumns = currentPost.value.embed?.images?.length
 
 function handleLikeToggled(newLikeUri: string | null) {
   likeUri.value = newLikeUri
@@ -37,6 +37,7 @@ function handleRepostToggled(newRepostUri: string | null) {
     <div class="parent" v-if="parent">
         <PostHeader :author="parent?.post?.author"  :post="parent" />
         <PostText :text="parent?.post.record.text" :agent="bskyAgent" />
+
         <div v-if="parent?.post.embed?.images">
             <figure class="image" :class="{ 'is-multi-picture': maxColumns > 1 }" :style="{ '--max-columns': maxColumns }">
                 <img  v-for="(image, index) in parent?.post.embed?.images" :key="image.thumb" :src="image.thumb" :alt="image.alt">
@@ -53,10 +54,9 @@ function handleRepostToggled(newRepostUri: string | null) {
             @likeToggled="handleLikeToggled"
             @repostToggled="handleRepostToggled"
         />
-        <hr />
     </div>
     <div class="post">
-        <PostHeader :author="currentPost?.author"  :post="post" />
+        <PostHeader :author="currentPost?.author"  :post="currentPost" />
         <PostText :text="currentPost?.record.text" :agent="bskyAgent" />
         <div v-if="currentPost?.embed?.images">
             <figure class="image" :class="{ 'is-multi-picture': maxColumns > 1 }" :style="{ '--max-columns': maxColumns }">
@@ -66,18 +66,18 @@ function handleRepostToggled(newRepostUri: string | null) {
     
         <PostActions
             :post="currentPost"
-            :post-cid="currentPost?.post?.cid"
-            :post-uri="currentPost?.post?.uri"
+            :post-cid="currentPost?.cid"
+            :post-uri="currentPost?.uri"
             :like-uri="likeUri"
             :repost-uri="repostUri"
             :agent="bskyAgent"
             @likeToggled="handleLikeToggled"
             @repostToggled="handleRepostToggled"
         />
-        <hr />
     </div>
 
     <div v-if="replies.length > 0">
+        <hr />
         <h3 class="title is-4">Replies to this post</h3>
         <Post v-for="post in replies" :key="post.post.record.cid" :post="post" :agent="bskyAgent" />
     </div>

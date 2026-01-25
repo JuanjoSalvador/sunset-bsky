@@ -1,6 +1,6 @@
 import { RichText } from "@atproto/api"
 
-export function useRichText(textRef: Ref<string> | ComputedRef<string>, agent: any) {
+export function useRichText(textRef: string | ComputedRef<string>, agent: any) {
   const segments = ref<any[]>([])
 
   const parse = async (val: string) => {

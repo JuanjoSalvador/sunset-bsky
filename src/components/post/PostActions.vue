@@ -99,12 +99,13 @@ async function toggleRepost() {
       </div>
     </div>
     <div class="column has-text-centered">
-      <button class="button is-ghost" :class="{ 'text-green': isReposted }" @click="toggleRepost">
-        <font-awesome :icon="['fas', 'repeat']" />
+      <button class="button is-ghost" @click="toggleRepost" @click.stop>
+        <font-awesome :icon="['fas', 'repeat']" v-if="!isReposted" />
+        <font-awesome :icon="['fas', 'repeat']" class="text-green" v-if="isReposted" />
       </button>
     </div>
     <div class="column has-text-centered">
-      <button class="button is-ghost"  @click="toggleLike">
+      <button class="button is-ghost"  @click="toggleLike" @click.stop>
         <font-awesome :icon="['far', 'heart']" v-if="!isLiked" />
         <font-awesome :icon="['fas', 'heart']" class="text-red" v-if="isLiked" />
       </button>

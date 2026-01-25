@@ -87,9 +87,9 @@ function openPost() {
         padding-top: 0.5rem;
         padding-right: 0.5rem;
         padding-bottom: 0.5rem;
-        border-top: 0.1rem solid #444;
+        /* border-top: 0.1rem solid #444;
         border-left: 0.1rem solid #444;
-        border-right: 0.1rem solid #444;
+        border-right: 0.1rem solid #444; */
     }
 
     .post:hover {
